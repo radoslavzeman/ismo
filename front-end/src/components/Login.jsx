@@ -32,7 +32,7 @@ class Login extends PureComponent {
         }).then(data => {
             if (data.msg === "ok") {
                 // console.log(data.user);
-                console.log('User ' + data.user.user_name + ' is successfully logged in');
+                // console.log('User ' + data.user.user_name + ' is successfully logged in');
                 return (data.user);
             }
             if (data.msg === "user_not_exists") {
@@ -78,7 +78,6 @@ class Login extends PureComponent {
                             label="User name"
                             className="md-cell md-cell--12"
                             value={this.state.user_name}
-                            // defaultValue={this.state.user_name}
                             onChange={value => this.setState({ user_name: value })}
                             // errorText="asdfasdf"
                             required
@@ -89,7 +88,6 @@ class Login extends PureComponent {
                             type="password"
                             className="md-cell md-cell--12"
                             value={this.state.password}
-                            // defaultValue={this.state.password}
                             onChange={value => this.setState({ password: value })}
                             required
                         />
