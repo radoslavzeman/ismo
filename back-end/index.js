@@ -130,11 +130,25 @@ app.post('/get-person', (req, res) => {
 app.post('/add-person', (req, res) => {
     var sql = 'INSERT INTO persons (name, surname) VALUES (?, ?);';
     var person = req.body;
+    console.log(person);
     con.query(sql, [person.name, person.surname], (error, results, fields) => {
         if(error) {
             return res.send({ msg: "err", error: error });
         } else {
             return res.send({ msg: "Osoba pridana"});
+        }
+    })
+})
+
+app.post('/update-person', (req, res) => {
+    var sql = 'UPDATE persons SET name = ?, surname = ? WHERE id = ?;';
+    var person = req.body;
+    console.log(person);
+    con.query(sql, [person.name, person.surname, person.id], (error, results, fields) => {
+        if(error) {
+            return res.send({ msg: "err", error: error });
+        } else {
+            return res.send({ msg: "Osoba upravena"});
         }
     })
 })
