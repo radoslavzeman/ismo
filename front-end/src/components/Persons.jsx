@@ -9,6 +9,8 @@ import {
     FontIcon,
     Button,
     Card,
+    MenuButton,
+    ListItem,
 } from 'react-md';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, withRouter } from "react-router-dom";
 
@@ -24,6 +26,9 @@ class Persons extends PureComponent {
             redirect: false,
         };
 
+        this.routToPersonProfile.bind(this);
+
+
         fetch('http://localhost:4000/persons')
             .then(response => response.json())
             .then(response => this.setState({ persons: response, slicedData: response.slice(0, 10) }))
@@ -37,6 +42,11 @@ class Persons extends PureComponent {
     handlePagination = (start, rowsPerPage) => {
         this.setState({ slicedData: this.state.persons.slice(start, start + rowsPerPage) });
     };
+
+    routToPersonProfile = (id) => {
+        let path = '/persons/' + id;
+        this.props.history.push(path);
+    }
 
     // redirectToAddPerson = () => {
     //     if (this.state.redirect) {
@@ -60,6 +70,7 @@ class Persons extends PureComponent {
                     <TableRow selectable={false}>
                         <TableColumn key="name">Name</TableColumn>
                         <TableColumn key="surname">Surname</TableColumn>
+                        <TableColumn key="id">Id</TableColumn>
                         {/* <TableColumn key="address">Address</TableColumn>
                         <TableColumn key="date_of_birth">Date of birth</TableColumn> */}
                     </TableRow>
@@ -69,6 +80,28 @@ class Persons extends PureComponent {
                         <TableRow key={id} selectable={false}>
                             <TableColumn>{name}</TableColumn>
                             <TableColumn>{surname}</TableColumn>
+                            <TableColumn>{id}</TableColumn>
+                            <TableColumn><MenuButton
+                                id="menu-button-2"
+                                anchor={{
+                                    x: MenuButton.HorizontalAnchors.INNER_LEFT,
+                                    y: MenuButton.VerticalAnchors.TOP,
+                                }}
+                                position={MenuButton.Positions.TOP_RIGHT}
+                                // flat
+                                // primary
+                                icon
+                                menuItems={[
+                                    {
+                                    primaryText: <Link to={"/persons/"+id}>'Edit'</Link>,
+                                    leftIcon: <FontIcon>edit</FontIcon>,
+                                    // onClick: this.routToPersonProfile({id}),
+                                },
+                                // <Button flat onClick={this.routToPersonProfile({id})}>Hello, World!</Button>
+                                ]}
+                                >
+                                more_vert
+                                </MenuButton></TableColumn>
                             {/* <TableColumn>{address}, {zip} {city}</TableColumn>
                             <TableColumn>{date_of_birth}</TableColumn> */}
                         </TableRow>
@@ -77,9 +110,7 @@ class Persons extends PureComponent {
                 {/* </Card> */}
                 <TablePagination rows={this.state.persons.length} rowsPerPageLabel={rowsPerPageLabel} onPagination={this.handlePagination} />
             </DataTable>
-            
-            {/* {this.redirectToAddPerson()}
-            <Button floating secondary svg onClick={this.setState({redirect: true})}><FontIcon>plus_one</FontIcon></Button> */}
+            <Link to="/add-person"><Button floating secondary svg onClick={this.setState({redirect: true})}><FontIcon>person_add</FontIcon></Button></Link>
             </div>
         );
     }

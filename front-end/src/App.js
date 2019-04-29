@@ -71,9 +71,7 @@ class App extends PureComponent {
             <NavigationDrawer
               renderNode={renderNode}
               navItems={this.navItems.map(item =>
-                <Route path={item.key} children={({ match }) => (
-                  <ListItem active={!!match} component={Link} to={item.key} {...item} />
-                )} />
+                <Link to={"/"+item.key}><ListItem {...item}/></Link>
               )}
               mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
               tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
@@ -88,11 +86,10 @@ class App extends PureComponent {
                 <Switch>
                   <Route path="/persons" exact component={Persons} />
                   <Route path="/users" component={Person} />
-                  <Route path="/login" component={Login} />
+                  <Route path="/login" exact component={Login} />
                   <Route path="/profile" component={Profile} />
                   <Route path="/add-person" exact component={PersonProfile} />
                   <Route path="/persons/:id" component={PersonProfile} />
-
                 </Switch>
               </section>
             </NavigationDrawer>
