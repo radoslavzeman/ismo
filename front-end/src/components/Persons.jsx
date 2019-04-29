@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
+    Avatar,
     DataTable,
     TableHeader,
     TableBody,
@@ -71,6 +72,7 @@ class Persons extends PureComponent {
                         <TableColumn key="name">Name</TableColumn>
                         <TableColumn key="surname">Surname</TableColumn>
                         <TableColumn key="id">Id</TableColumn>
+                        <TableColumn key="menu"></TableColumn>
                         {/* <TableColumn key="address">Address</TableColumn>
                         <TableColumn key="date_of_birth">Date of birth</TableColumn> */}
                     </TableRow>
@@ -92,12 +94,14 @@ class Persons extends PureComponent {
                                 // primary
                                 icon
                                 menuItems={[
-                                    {
-                                    primaryText: <Link to={"/persons/"+id}>'Edit'</Link>,
-                                    leftIcon: <FontIcon>edit</FontIcon>,
-                                    // onClick: this.routToPersonProfile({id}),
-                                },
+                                //     {
+                                //     primaryText: <Link to={"/persons/"+id}>'Edit'</Link>,
+                                //     leftIcon: <FontIcon>edit</FontIcon>,
+                                //     // onClick: this.routToPersonProfile({id}),
+                                // },
                                 // <Button flat onClick={this.routToPersonProfile({id})}>Hello, World!</Button>
+                                <Link to={"/persons/"+id}><ListItem primaryText="Edit" leftIcon={<FontIcon>edit</FontIcon>}/></Link>,
+                                // <ListItem primaryText="Edit" leftIcon={<FontIcon>edit</FontIcon>}/>
                                 ]}
                                 >
                                 more_vert
