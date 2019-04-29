@@ -17,42 +17,38 @@ import { BrowserRouter as Router, Route, Link, Switch, Redirect, withRouter } fr
 
 
 
-class Persons extends PureComponent {
+class Units extends PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            persons: [],
+            units: [],
             slicedData: [],
-        };
+        };        
     }
 
     componentDidMount() {
-        this.getPersons();
-    };
+        this.getUnits();
+    }
 
-    getPersons = () => {
-        console.log("getting all persons");
-        fetch('http://localhost:4000/get-persons', {
+    getUnits = () => {
+        console.log("getting all units");
+        fetch('http://localhost:4000/get-units', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         }).then(response => {
             return response.json()
         }).then(response => {
-            this.setState({ persons: response, slicedData: response.slice(0, 10) });
-        }).catch(err => console.log("Error while fetching persons: " + err))
-    };
-
-    handlePagination = (start, rowsPerPage) => {
-        this.setState({ slicedData: this.state.persons.slice(start, start + rowsPerPage) });
-    };
-
-    routToPersonProfile = (id) => {
-        let path = '/persons/' + id;
-        this.props.history.push(path);
+            this.setState({ units: response, slicedData: response.slice(0, 10) });
+        }).catch(err => console.log("Error while fetching units: " + err))
     }
 
+    handlePagination = (start, rowsPerPage) => {
+        this.setState({ slicedData: this.state.units.slice(start, start + rowsPerPage) });
+    };
+
     render() {
+
         const rowsPerPageLabel = this.props.mobile ? 'Rows' : 'Rows per page';
 
 
@@ -60,20 +56,17 @@ class Persons extends PureComponent {
             <div>
             <Card key="persons" className="md-cell md-cell--12">
             <DataTable baseId="simple-pagination">
-                {/* <Card className="md-cell md-cell--12"> */}
                 <TableHeader>
                     <TableRow selectable={false}>
                         <TableColumn key="name">Name</TableColumn>
-                        <TableColumn key="surname">Surname</TableColumn>
                         <TableColumn key="id">Id</TableColumn>
                         <TableColumn key="menu"></TableColumn>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {this.state.slicedData.map(({ id, name, surname }) => (
+                    {this.state.slicedData.map(({ id, name }) => (
                         <TableRow key={id} selectable={false}>
                             <TableColumn>{name}</TableColumn>
-                            <TableColumn>{surname}</TableColumn>
                             <TableColumn>{id}</TableColumn>
                             <TableColumn><MenuButton
                                 id="menu-button-2"
@@ -84,25 +77,24 @@ class Persons extends PureComponent {
                                 position={MenuButton.Positions.TOP_RIGHT}
                                 icon
                                 menuItems={[
-                                <Link to={"/persons/"+id}><ListItem primaryText="Edit" leftIcon={<FontIcon>edit</FontIcon>}/></Link>,
+                                <Link to={"/units/"+id}><ListItem primaryText="Edit" key={"/units/"+id} leftIcon={<FontIcon>edit</FontIcon>}/></Link>,
                                 ]}
                                 >
                                 more_vert
-                                </MenuButton></TableColumn>
+                                </MenuButton>
+                            </TableColumn>
                         </TableRow>
                     ))}
                 </TableBody>
-                {/* </Card> */}
-                <TablePagination rows={this.state.persons.length} rowsPerPageLabel={rowsPerPageLabel} onPagination={this.handlePagination} />
-
+                
+                <TablePagination rows={this.state.units.length} rowsPerPageLabel={rowsPerPageLabel} onPagination={this.handlePagination} />
             </DataTable>
             </Card>
-
-            <Link to="/add-person"><Button floating secondary svg><FontIcon>person_add</FontIcon></Button></Link>
+            <Link to="/add-unit"><Button floating secondary svg><FontIcon>group_add</FontIcon></Button></Link>
             </div>
         );
     }
 
 };
 
-export default Persons
+export default Units

@@ -10,10 +10,10 @@ export default [{
   key: 'persons',
   primaryText: 'Persons',
   leftIcon: <FontIcon>people_outlined</FontIcon>,
-// }, {
-//   key: 'units',
-//   primaryText: 'Units',
-//   leftIcon: <FontIcon>group</FontIcon>,
+}, {
+  key: 'units',
+  primaryText: 'Units',
+  leftIcon: <FontIcon>group</FontIcon>,
 }, {
   key: 'login',
   primaryText: 'Login',

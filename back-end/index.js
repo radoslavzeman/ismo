@@ -40,16 +40,16 @@ app.get('/', (req, res) =>{
     res.send('na zobrazenie vsetkych osob chod na /persons')
 })
 
-app.get('/persons', (req, res) => {
-    var sql = 'SELECT * FROM persons;';
-    con.query(sql, (error, results, fields) => {
-        if(error) {
-            return res.send(error)
-        } else {
-            return res.send(results)
-        }
-    })
-})
+// app.get('/persons', (req, res) => {
+//     var sql = 'SELECT * FROM persons;';
+//     con.query(sql, (error, results, fields) => {
+//         if(error) {
+//             return res.send(error)
+//         } else {
+//             return res.send(results)
+//         }
+//     })
+// })
 
 // app.get('/loginjohn', (req, res) => {
 //     var sql = 'SELECT * FROM persons WHERE user_name = ?;';
@@ -105,6 +105,19 @@ app.post('/login', (req, res) => {
     })
 })
 
+// PERSONS //
+
+app.post('/get-persons', (req, res) => {
+    var sql = 'SELECT * FROM persons;';
+    con.query(sql, (error, results, fields) => {
+        if(error) {
+            return res.send(error);
+        } else {
+            return res.send(results);
+        }
+    })
+})
+
 app.post('/get-person', (req, res) => {
     var sql = 'SELECT * FROM persons WHERE id = ?;';
     con.query(sql, [req.body.id], (error, results, fields) => {
@@ -149,6 +162,68 @@ app.post('/update-person', (req, res) => {
             return res.send({ msg: "err", error: error });
         } else {
             return res.send({ msg: "Osoba upravena"});
+        }
+    })
+})
+
+
+// UNITS //
+
+app.post('/get-units', (req, res) => {
+    var sql = 'SELECT * FROM units;';
+    con.query(sql, (error, results, fields) => {
+        if(error) {
+            return res.send(error);
+        } else {
+            return res.send(results);
+        }
+    })
+})
+
+app.post('/get-unit', (req, res) => {
+    var sql = 'SELECT * FROM units WHERE id = ?;';
+    con.query(sql, [req.body.id], (error, results, fields) => {
+        if(error) {
+            return res.send({msg: "err", error: error})
+        } else {
+            var results_count = results.length;
+            console.log(results_count);
+            if (results_count === 0) {
+                return res.send({msg: "unit_not_exists"});
+            }
+            else if (results_count > 1) {
+                return res.send({msg: "multiple_units_with_same_id"});
+            }
+            else {
+                var unit = results[0];
+                return res.send({msg: "ok", unit: unit});
+            }
+        }
+    })
+})
+
+app.post('/add-unit', (req, res) => {
+    var sql = 'INSERT INTO units (name) VALUES (?);';
+    var unit = req.body;
+    console.log(unit);
+    con.query(sql, [unit.name], (error, results, fields) => {
+        if(error) {
+            return res.send({ msg: "err", error: error });
+        } else {
+            return res.send({ msg: "Jednotka pridana"});
+        }
+    })
+})
+
+app.post('/update-unit', (req, res) => {
+    var sql = 'UPDATE units SET name = ? WHERE id = ?;';
+    var unit = req.body;
+    console.log(unit);
+    con.query(sql, [unit.name, unit.id], (error, results, fields) => {
+        if(error) {
+            return res.send({ msg: "err", error: error });
+        } else {
+            return res.send({ msg: "Jednotka upravena"});
         }
     })
 })
