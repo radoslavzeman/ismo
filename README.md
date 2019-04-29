@@ -1,2 +1,2 @@
 # ISMO
-Informacny system mladeznickej organizacie
+Informačný systém mládežníckej organizácie
