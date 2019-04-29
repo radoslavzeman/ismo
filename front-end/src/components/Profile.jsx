@@ -3,6 +3,7 @@ import { Card, CardTitle, CardText, Slider } from 'react-md';
 import { AuthProvider, AuthConsumer } from './AuthContext'
 
 import Login from "./Login";
+import Logout from "./Logout"
 
 
 const style = { maxWidth: 600 };
@@ -43,12 +44,14 @@ class Profile extends PureComponent {
                         <Card style={style} className="md-block-centered">
                             {/* <CardTitle title="Random User" subtitle="usrnm" /> */}
                             <CardTitle title={user.name + " " + user.surname} subtitle={user.user_name} />
-                            <CardText>
+                            {/* <CardText>
                                 <p><strong>Address: </strong>{user.address}, {user.zip} {user.city}</p>
                                 <p><strong>Phone: </strong>{user.phone}</p>
                                 <p><strong>Email: </strong>{user.email}</p>
-                            </CardText>
+                            </CardText> */}
+                            <Logout/>
                         </Card>
+                        
                     ) : (
                         <Login />
                     )

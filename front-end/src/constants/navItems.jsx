@@ -18,8 +18,8 @@ export default [{
   key: 'login',
   primaryText: 'Login',
   leftIcon: <FontIcon>input</FontIcon>,
-}, {
-  key: 'add-person',
-  primaryText: 'Add person',
-  leftIcon: <FontIcon>person_add</FontIcon>,
+// }, {
+//   key: 'add-person',
+//   primaryText: 'Add person',
+//   leftIcon: <FontIcon>person_add</FontIcon>,
 }];

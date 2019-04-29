@@ -89,15 +89,14 @@ class App extends PureComponent {
             >
               <section className="md-text-container md-cell md-cell--12">
                 <Switch>
-                  <Route path="/users" component={Person} />
                   <Route path="/login" exact component={Login} />
-                  <Route path="/profile" component={Profile} />
-                  <Route path="/persons" exact component={Persons} />
-                  <Route path="/persons/:id" component={PersonProfile} />
-                  <Route path="/add-person" exact component={PersonProfile} />
-                  <Route path="/units" exact component={Units} />
-                  <Route path="/units/:id" component={Unit} />
-                  <Route path="/add-unit" exact component={Unit} />
+                  <ProtectedRoute path="/profile" component={PersonProfile} />
+                  <ProtectedRoute path="/persons" exact component={Persons} />
+                  <ProtectedRoute path="/persons/:id" component={PersonProfile} />
+                  <ProtectedRoute path="/add-person" exact component={PersonProfile} />
+                  <ProtectedRoute path="/units" exact component={Units} />
+                  <ProtectedRoute path="/units/:id" component={Unit} />
+                  <ProtectedRoute path="/add-unit" exact component={Unit} />
                 </Switch>
               </section>
             </NavigationDrawer>

@@ -12,6 +12,7 @@ import {
     Card,
     MenuButton,
     ListItem,
+    Paper,
 } from 'react-md';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, withRouter } from "react-router-dom";
 
@@ -59,7 +60,7 @@ class Persons extends PureComponent {
         return (
             <div>
             <Card key="persons" className="md-cell md-cell--12">
-            <DataTable baseId="simple-pagination">
+            <DataTable baseId="simple-pagination" >
                 {/* <Card className="md-cell md-cell--12"> */}
                 <TableHeader>
                     <TableRow selectable={false}>
@@ -84,7 +85,7 @@ class Persons extends PureComponent {
                                 position={MenuButton.Positions.TOP_RIGHT}
                                 icon
                                 menuItems={[
-                                <Link to={"/persons/"+id}><ListItem primaryText="Edit" leftIcon={<FontIcon>edit</FontIcon>}/></Link>,
+                                <Link to={"/persons/"+id}><ListItem primaryText="Edit" key={"edit"+id} leftIcon={<FontIcon>edit</FontIcon>}/></Link>,
                                 ]}
                                 >
                                 more_vert
@@ -93,6 +94,7 @@ class Persons extends PureComponent {
                     ))}
                 </TableBody>
                 {/* </Card> */}
+                {/* </Paper> */}
                 <TablePagination rows={this.state.persons.length} rowsPerPageLabel={rowsPerPageLabel} onPagination={this.handlePagination} />
 
             </DataTable>
