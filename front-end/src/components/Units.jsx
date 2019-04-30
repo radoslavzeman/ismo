@@ -31,6 +31,10 @@ class Units extends PureComponent {
         this.getUnits();
     }
 
+    handleRedirect = (path) => {
+        this.props.history.push(path);
+    }
+
     getUnits = () => {
         console.log("getting all units");
         fetch('http://localhost:4000/get-units', {
@@ -77,7 +81,7 @@ class Units extends PureComponent {
                                 position={MenuButton.Positions.TOP_RIGHT}
                                 icon
                                 menuItems={[
-                                <Link to={"/units/"+id}><ListItem primaryText="Edit" key={"/units/"+id} leftIcon={<FontIcon>edit</FontIcon>}/></Link>,
+                                    <ListItem primaryText="Edit" key={"/units/"+id} onClick={() => this.handleRedirect("/units/"+id)} leftIcon={<FontIcon>edit</FontIcon>}/>,
                                 ]}
                                 >
                                 more_vert
@@ -90,7 +94,7 @@ class Units extends PureComponent {
                 <TablePagination rows={this.state.units.length} rowsPerPageLabel={rowsPerPageLabel} onPagination={this.handlePagination} />
             </DataTable>
             </Card>
-            <Link to="/add-unit"><Button floating secondary svg><FontIcon>group_add</FontIcon></Button></Link>
+            <Link to="/add-unit"><Button floating svg secondary  className="md-cell--right md-cell--bottom"><FontIcon>group_add</FontIcon></Button></Link>
             </div>
         );
     }

@@ -84,7 +84,7 @@ class Persons extends PureComponent {
                                 position={MenuButton.Positions.TOP_RIGHT}
                                 icon
                                 menuItems={[
-                                <Link to={"/persons/"+id}><ListItem primaryText="Edit" key={"edit"+id} onClick={() => this.handleRedirect('/persons/' + id)} leftIcon={<FontIcon>edit</FontIcon>}/></Link>,
+                                    <ListItem primaryText="Edit" key={"edit"+id} onClick={() => this.handleRedirect('/persons/' + id)} leftIcon={<FontIcon>edit</FontIcon>}/>   ,
                                 ]}
                                 >
                                 more_vert

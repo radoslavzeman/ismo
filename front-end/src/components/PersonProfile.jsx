@@ -18,6 +18,7 @@ class PersonProfile extends PureComponent {
       person: {
         name: "",
         surname: "",
+        id: "",
       },
       units: [],
       add_unit: "",
@@ -38,6 +39,10 @@ class PersonProfile extends PureComponent {
       // console.log(this.state);
     }
     // this.getAllUnits()
+  }
+
+  handleRedirect = (path) => {
+    this.props.history.push(path);
   }
 
   getAllUnits = () => {
@@ -149,9 +154,7 @@ class PersonProfile extends PureComponent {
     }).catch(err => console.log("Error while fetching person's units: " + err))
   }
 
-  handleRedirect = (path) => {
-    this.props.history.push(path);
-  };
+  
 
   // handleChange(event) {
   //   const target = event.target;
@@ -237,7 +240,7 @@ class PersonProfile extends PureComponent {
                           primaryText={item.name}
                           onClick={() => this.handleRedirect("/units/" + item.id)}
                           renderChildrenOutside>
-                          <Button icon secondary onClick={() => this.deletePersonMembership(ctx.user.id, item.id)}>delete</Button>
+                          <Button icon secondary onClick={() => this.deletePersonMembership(this.state.person.id, item.id)}>delete</Button>
                         </ListItem>
                       )}
                     </List>
@@ -246,7 +249,7 @@ class PersonProfile extends PureComponent {
                     <form
                       id="form-add-membership"
                       name="add-membership"
-                      onSubmit={() => this.addPersonMembership(ctx.user.id, this.state.form_unit_id)}
+                      onSubmit={() => this.addPersonMembership(this.state.person.id, this.state.form_unit_id)}
                       className="md-grid"
                     >
 
@@ -276,9 +279,9 @@ class PersonProfile extends PureComponent {
                       />
                       <Button
                         type="submit"
-                        floating
-                        secondary
-                        // className="md-cell--right md-cell--bottom"
+                        primary
+                        icon
+                        className="md-cell--left md-cell--middle"
                         // disabled={!pastry}
                       >
                         <FontIcon>add</FontIcon>
