@@ -7,9 +7,9 @@ class AuthProvider extends React.Component {
   constructor() {
     super();
     this.state = {
-        is_user: false,                               // Mock login
+        is_user: true,                               // Mock login
         user: {                                      // Mock user data
-            id: 0,
+            id: 1,
             name: 'R',
             surname: 'Z',
             // date_of_birth: "1100-01-01",

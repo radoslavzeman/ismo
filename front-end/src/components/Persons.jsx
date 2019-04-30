@@ -48,8 +48,7 @@ class Persons extends PureComponent {
         this.setState({ slicedData: this.state.persons.slice(start, start + rowsPerPage) });
     };
 
-    routToPersonProfile = (id) => {
-        let path = '/persons/' + id;
+    handleRedirect = (path) => {
         this.props.history.push(path);
     }
 
@@ -85,7 +84,7 @@ class Persons extends PureComponent {
                                 position={MenuButton.Positions.TOP_RIGHT}
                                 icon
                                 menuItems={[
-                                <Link to={"/persons/"+id}><ListItem primaryText="Edit" key={"edit"+id} leftIcon={<FontIcon>edit</FontIcon>}/></Link>,
+                                <Link to={"/persons/"+id}><ListItem primaryText="Edit" key={"edit"+id} onClick={() => this.handleRedirect('/persons/' + id)} leftIcon={<FontIcon>edit</FontIcon>}/></Link>,
                                 ]}
                                 >
                                 more_vert

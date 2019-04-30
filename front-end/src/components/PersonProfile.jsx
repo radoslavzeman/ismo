@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Card, CardTitle, CardText, Button, CardActions, Slider, TextField, List, ListItem, Avatar, FontIcon } from 'react-md';
-import { withRouter } from 'react-router-dom'
+import { Card, CardTitle, CardText, Button, CardActions, Slider, TextField, List, ListItem, Avatar, FontIcon , Autocomplete} from 'react-md';
+import Input from 'react-md-input'
 import _ from 'lodash'
 import { AuthConsumer } from './AuthContext';
+import Units from './Units'
 
 
 class PersonProfile extends PureComponent {
@@ -11,6 +12,7 @@ class PersonProfile extends PureComponent {
     super(props);
 
     this.getPerson.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       person: {
@@ -18,24 +20,39 @@ class PersonProfile extends PureComponent {
         surname: "",
       },
       units: [],
+      add_unit: "",
+      all_units: [{id: 1, name: "Zebry"}, {id: 2, name: "Trpasilci"}],
     };
   }
   componentDidMount() {
     var id = null;
-    console.log(this.props);
+    // console.log(this.props);
     if (this.props.match.path === "/persons/:id") {
       id = this.props.match.params.id;
-
-      // lse if (this.props.match.path === "/profile") {
-      //   var ctx = useContext(AuthConsumer);
-      //   id = this.state.
+      // else if (this.props.match.path === "/profile") {
+      //   /// somehow get id from ctx.user.id
       // }
       this.getPerson(id);
       this.getPersonUnits(id);
-      console.log("MOUNT")
-      console.log(this.state);
+      // console.log("MOUNT")
+      // console.log(this.state);
     }
+    // this.getAllUnits()
   }
+
+  getAllUnits = () => {
+    console.log("getting all units");
+    fetch('http://localhost:4000/get-units', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+    }).then(response => response.json()
+    ).then(response => {
+      // console.log("ALL UNITS");
+      // console.log(response);
+      this.setState({ all_units: response });
+      console.log(this.state);
+    }).catch(err => console.log("Error while fetching units: " + err))
+}
 
   getPerson = (id) => {
     console.log("getting person " + id);
@@ -59,10 +76,10 @@ class PersonProfile extends PureComponent {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: this.state.person.name, surname: this.state.person.surname })
     }).then(response => {
-      console.log(response)
+      // console.log(response)
       return response.json()
     }).then(data => {
-      console.log(data.person)
+      // console.log(data.person)
       this.setState({ person: data.person });
     }).catch(err => console.log("Error while fetching persons: " + err))
   }
@@ -74,10 +91,10 @@ class PersonProfile extends PureComponent {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: this.state.person.name, surname: this.state.person.surname, id: id })
     }).then(response => {
-      console.log(response)
+      // console.log(response)
       return response.json()
     }).then(data => {
-      console.log(data.person)
+      // console.log(data.person)
       this.setState({ person: data.person });
     }).catch(err => console.log("Error while fetching persons: " + err))
   }
@@ -91,16 +108,62 @@ class PersonProfile extends PureComponent {
     }).then(response => {
       return response.json()
     }).then(data => {
-      console.log("DATA:")
-      console.log(data)
+      // console.log("DATA:")
+      // console.log(data)
       this.setState({ units: data });
       // console.log(this.state.person)
     }).catch(err => console.log("Error while fetching person's units: " + err))
   }
 
-  handleUnitClick = (id) => {
-    this.props.history.push("/units/" + id);
+  deletePersonMembership = (person_id, unit_id) => {
+    console.log("deleting person membership in unit " + unit_id);
+    fetch('http://localhost:4000/delete-membership', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ person_id: person_id, unit_id: unit_id })
+    }).then(response => response.json()
+    ).then(data => {
+      // console.log("DELETE DATA:")
+      // console.log(data)
+      if (data.affectedRows > 0) {
+        this.getPersonUnits(person_id);
+      }
+      // console.log(this.state.person)
+    }).catch(err => console.log("Error while fetching person's units: " + err))
+  }
+
+  addPersonMembership = (person_id, unit_id) => {
+    console.log("adding person membership in unit " + unit_id);
+    fetch('http://localhost:4000/add-membership', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ person_id: person_id, unit_id: unit_id })
+    }).then(response => response.json()
+    ).then(data => {
+      // console.log("DELETE DATA:")
+      // console.log(data)
+      if (data.affectedRows > 0) {
+        this.getPersonUnits(person_id);
+      }
+      // console.log(this.state.person)
+    }).catch(err => console.log("Error while fetching person's units: " + err))
+  }
+
+  handleRedirect = (path) => {
+    this.props.history.push(path);
   };
+
+  // handleChange(event) {
+  //   const target = event.target;
+  //   console.log("event")
+  //   console.log(event)
+  //   // const value = target.value;
+  //   // const name = target.name;
+
+  //   // this.setState({
+  //   //   [name]: value
+  //   // });
+  // }
 
 
   render() {
@@ -110,13 +173,13 @@ class PersonProfile extends PureComponent {
       var person = this.state.person;
       var units = this.state.units;
     }
-    console.log("RENDER");
-    console.log(this.state.units);
-    this.state.units.map((item) => console.log(item))
+    // console.log("RENDER");
+    // console.log(this.state.user);
+    // this.state.units.map((item) => console.log(item))
     return (
       <AuthConsumer>
         {(ctx) => {
-          this.setState({context: ctx});
+          this.setState({ context: ctx });
           return (
             <div>
               <Card className="md-block-centered">
@@ -130,6 +193,7 @@ class PersonProfile extends PureComponent {
                       className="md-cell md-cell--12"
                       value={this.state.person.name}
                       onChange={value => this.setState({ person: { name: value, surname: this.state.person.surname } })}
+                      controlled="true"
                       // errorText="asdfasdf"
                       required
                     />
@@ -140,6 +204,7 @@ class PersonProfile extends PureComponent {
                       value={this.state.person.surname}
                       onChange={value => this.setState({ person: { name: this.state.person.name, surname: value } })}
                       // errorText="asdfasdf"
+                      controlled="true"
                       required
                     />
 
@@ -167,15 +232,58 @@ class PersonProfile extends PureComponent {
                     <List className="md-cell md-cell-12">
                       {this.state.units.map(item =>
                         <ListItem
-                          key={TextMetrics.id}
+                          key={"/units/"+item.id}
                           leftAvatar={<Avatar suffix="amber">{item.name.charAt(0)}</Avatar>}
                           primaryText={item.name}
-                          onClick={() => this.handleUnitClick(item.id)}
+                          onClick={() => this.handleRedirect("/units/" + item.id)}
                           renderChildrenOutside>
-                          <Button icon secondary>delete</Button>
+                          <Button icon secondary onClick={() => this.deletePersonMembership(ctx.user.id, item.id)}>delete</Button>
                         </ListItem>
                       )}
                     </List>
+
+                    {/* Adding units */}
+                    <form
+                      id="form-add-membership"
+                      name="add-membership"
+                      onSubmit={() => this.addPersonMembership(ctx.user.id, this.state.form_unit_id)}
+                      className="md-grid"
+                    >
+
+                      {/* <Autocomplete
+                        id="units-autocomplete"
+                        label="Add person to unit:"
+                        placeholder="unit"
+                        name="form_unit_name"
+                        inline
+                        // required
+                        // value={this.state.form_unit_name}
+                        data={this.state.all_units}
+                        className="md-cell md-cell--6 md-cell--4-phone"
+                        errorText="Specify the unit!"
+                        // onBlur={this.handleBlur}
+                        // onChange={this.handleChange}
+                        filter={Autocomplete.caseInsensitiveFilter}
+                        onAutocomplete={this.handleAutocomplete}
+                      /> */}
+                      <TextField
+                        id="unit-id"
+                        label="Write unit id"
+                        className="md-cell md-cell--6 md-cell--4-phone"
+                        name="form_unit_id"
+                        value={this.state.form_unit_id}
+                        onChange={(value) => this.setState({form_unit_id: value})}
+                      />
+                      <Button
+                        type="submit"
+                        floating
+                        secondary
+                        // className="md-cell--right md-cell--bottom"
+                        // disabled={!pastry}
+                      >
+                        <FontIcon>add</FontIcon>
+                      </Button>
+                    </form>
                   </CardText>
                 </Card>
               ) : (
@@ -190,4 +298,4 @@ class PersonProfile extends PureComponent {
   }
 }
 
-export default withRouter(PersonProfile);
+export default PersonProfile;

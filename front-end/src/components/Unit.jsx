@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card, CardTitle, CardText, Button, CardActions, Slider, TextField } from 'react-md';
+import { Card, CardTitle, CardText, Button, CardActions, TextField } from 'react-md';
 import _ from 'lodash'
 
 
@@ -17,6 +17,7 @@ class Unit extends PureComponent {
       },
     };
   }
+  
   componentDidMount() {
     if (this.props.match.path === "/units/:id") {
         var id = this.props.match.params.id
@@ -90,15 +91,16 @@ class Unit extends PureComponent {
               // errorText="asdfasdf"
               required
             />
-            {/* <TextField
-              id="surname"
-              label="Surname"
+            <TextField
+              id="unit_id"
+              label="Unit id"
               className="md-cell md-cell--12"
-              value={this.state.person.surname}
-              onChange={value => this.setState({ person: { name: this.state.person.name, surname: value } })}
+              value={this.state.unit.id}
+              disabled={true}
+              onChange={() => {}}
               // errorText="asdfasdf"
               required
-            /> */}
+            />
 
             <CardActions className="md-cell md-cell--12">
               {unit ? (

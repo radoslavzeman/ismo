@@ -169,9 +169,35 @@ app.post('/update-person', (req, res) => {
     })
 })
 
+// MEMBERSHIP //
+
 app.post('/get-person-units', (req, res) => {
     var sql = 'SELECT u.id, u.name FROM membership AS m JOIN units AS u ON m.unit_id=u.id WHERE person_id = ?;';
     con.query(sql, [req.body.id], (error, results, fields) => {
+        if(error) {
+            return res.send(error)
+        } else {
+            console.log(results);
+            return res.send(results);
+        }
+    })
+})
+
+app.post('/add-membership', (req, res) => {
+    var sql = 'INSERT INTO membership VALUES (?,?);';
+    con.query(sql, [req.body.person_id, req.body.unit_id], (error, results, fields) => {
+        if(error) {
+            return res.send(error)
+        } else {
+            console.log(results);
+            return res.send(results);
+        }
+    })
+})
+
+app.post('/delete-membership', (req, res) => {
+    var sql = 'DELETE FROM membership WHERE person_id = ? AND unit_id = ?;';
+    con.query(sql, [req.body.person_id, req.body.unit_id], (error, results, fields) => {
         if(error) {
             return res.send(error)
         } else {
