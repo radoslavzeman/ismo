@@ -9,10 +9,15 @@ const app = express();
 
 
 const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'test'
+    // host: 'localhost',
+    // user: 'root',
+    // password: 'root',
+    // database: 'test',
+    host: 'remotemysql.com',
+    post: 3306,
+    user: 'PBA2P26b6c',
+    password: 'flKqKAFVJw',
+    database: 'PBA2P26b6c',
 })
 
 con.connect(err => {

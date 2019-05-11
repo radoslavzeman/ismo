@@ -28,6 +28,8 @@ class PersonProfile extends PureComponent {
       },
       units: [],
       add_unit: "",
+      dialog_visible: false,
+      dialog_text: "",
       // all_units: [{ id: 1, name: "Zebry" }, { id: 2, name: "Trpasilci" }],
     };
   }
@@ -100,6 +102,7 @@ class PersonProfile extends PureComponent {
     const { dialog_visible, dialog_text } = this.state;
     const actions = [];
     actions.push({ secondary: true, children: 'Cancel', onClick: this.hide });
+    // END DIALOG
 
     return (
       <div>
