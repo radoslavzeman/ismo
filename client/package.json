@@ -1,18 +1,15 @@
 {
   "name": "front-end",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.1.0",
   "dependencies": {
     "@react-md/icon": "^2.0.0-alpha.0",
     "@react-md/theme": "^2.0.0-alpha.0",
     "@react-md/typography": "^2.0.0-alpha.0",
     "material-design-icons": "^3.0.1",
-    "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-cookie": "^3.1.2",
     "react-dom": "^16.8.6",
     "react-md": "^1.10.1",
-    "react-md-input": "0.0.2",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0"
@@ -20,7 +17,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
 
