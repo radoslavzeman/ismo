@@ -47,20 +47,19 @@ app.get('*', (req, res) => {
 })
 
 
+app.get('/server', (req, res) =>{
+    res.send('server is running');
+})
+
 // LOGIN //
 
 app.post('/login', (req, res) => {
     var sql = 'SELECT * FROM persons WHERE user_name = ?;';
-    console.log("LOGIN:");
-    console.log(req.body);
-
     con.query(sql, [req.body.user_name], (error, results, fields) => {
         if(error) {
-            console.log(error)
             return res.send({msg: "err", error: error})
         } else {
             var results_count = results.length;
-            console.log(results_count);
             if (results_count === 0) {
                 return res.send({msg: "user_not_exists"});
             }
@@ -122,7 +121,6 @@ app.post('/get-person', (req, res) => {
 app.post('/add-person', (req, res) => {
     var sql = 'INSERT INTO persons (name, surname, date_of_birth, address, city, zip, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
     var person = req.body.person;
-    console.log(person);
     con.query(sql, [person.name, person.surname, person.date_of_birth, person.address, person.city, person.zip, person.phone, person.email], (error, results, fields) => {
         if(error) {
             return res.send({ msg: "err", error: error });
