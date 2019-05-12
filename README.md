@@ -1,6 +1,7 @@
 # ISMO
 Informačný systém mládežníckej organizácie
-Information system 
+
+Information system for youth organization
 
 App runs on https://ismo.herokuapp.com/
 
