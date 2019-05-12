@@ -1,4 +1,7 @@
-# ismo
+# ISMO
 Informačný systém mládežníckej organizácie
+Information system 
 
-Aplikácia beží na https://ismo.herokuapp.com/3000
+App runs on https://ismo.herokuapp.com/
+
+To create your own instance you need MySQL server. Query to create tables is provided in database.sql.
