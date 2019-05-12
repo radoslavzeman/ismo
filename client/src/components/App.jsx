@@ -9,7 +9,7 @@ import MyNavLink from './MyNavLink'
 
 import ProtectedRoute from './ProtectedRoute'
 
-import inboxListItems from '../constants/navItems';
+import navItemsMenu from './navItems';
 
 import Persons from './Persons'
 import Logout from "./Logout"
@@ -24,7 +24,7 @@ class App extends PureComponent {
 
     const { cookies } = props;
 
-    this.navItems = inboxListItems
+    this.navItems = navItemsMenu;
 
     this.state = {
       user_name: "",
@@ -193,7 +193,7 @@ class App extends PureComponent {
               <ProtectedRoute path="/units" exact render={(props) => (<Units {...props} cookies={this.props.cookies} />)} />
               <ProtectedRoute path="/units/:id" render={(props) => (<Unit {...props} cookies={this.props.cookies} />)} />
               <ProtectedRoute path="/add-unit" exact render={(props) => (<Unit {...props} cookies={this.props.cookies} />)} />
-              <Route path="/logout" exact render={(props) => (<Logout {...props} cookies={this.props.cookies} />)} />
+              <ProtectedRoute path="/logout" exact render={(props) => (<Logout {...props} cookies={this.props.cookies} />)} />
             </Switch>
           </section>
         </NavigationDrawer>
