@@ -13,4 +13,4 @@ ReactDOM.render(
         </BrowserRouter>
     </CookiesProvider>,
 document.getElementById('root'));
-registerServiceWorker();
+// registerServiceWorker();
