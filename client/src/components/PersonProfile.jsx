@@ -1,12 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Card, CardTitle, CardText, Button, CardActions, DialogContainer, Slider, TextField, DatePicker, List, ListItem, Avatar, FontIcon, Autocomplete } from 'react-md';
-import Input from 'react-md-input'
 import _ from 'lodash'
-import { AuthConsumer } from './AuthContext';
-import Units from './Units'
-import momemt from 'moment'
-import DialogPerson from './DialogAddPerson'
-import DialogAddPerson from './DialogAddPerson';
 
 const h4style = { color: '#03a9f4', marginTop: '25px', marginBottom: '0px' };
 const h4styleFirst = { color: '#03a9f4', marginBottom: '0px' };
@@ -17,15 +11,10 @@ class PersonProfile extends PureComponent {
     super(props);
 
     this.getPerson.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       adding_new_person: false,
-      person: {
-        // name: "",
-        // surname: "",
-        // id: "",
-      },
+      person: {},
       units: [],
       add_unit: "",
       dialog_visible: false,
@@ -41,7 +30,6 @@ class PersonProfile extends PureComponent {
     if (this.props.match.path === "/persons/:id") {
       id = this.props.match.params.id;
       this.getPerson(id);
-      // this.setState(person);
       this.getPersonUnits(id);
       this.setState({ adding_new_person: false });
     }
@@ -60,8 +48,12 @@ class PersonProfile extends PureComponent {
     else {
       this.setState({ adding_new_person: true });
     }
+  }
 
-    // console.log("DID MOUT", this.state);
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.componentDidMount();
+    }
   }
 
   handleRedirect = (path) => {
@@ -92,11 +84,8 @@ class PersonProfile extends PureComponent {
   render() {
     console.log("RENDER", this.state, this.props);
     const { params, path } = this.props.match.params;
-    // console.log(this.props);
-    // console.log(params);
     var person = this.state.person;
     var units = this.state.units;
-    // console.log(person);
 
     // DIALOG
     const { dialog_visible, dialog_text } = this.state;
@@ -113,60 +102,56 @@ class PersonProfile extends PureComponent {
             onHide={this.hide}
             actions={actions}
             title={dialog_text}
-          >
-          </DialogContainer>
+          />
         </div>
         <div>
 
           {/***  PERSONS'S DATA  ***/}
 
           <Card className="md-block-centered">
-            {/* <CardTitle title="Random User" subtitle="usrnm" /> */}
             <CardTitle title={!this.state.adding_new_person ? "Person" : "Add new person"} />
             <CardText>
               <form className="md-grid text-fields__application" onSubmit={!this.state.adding_new_person ? this.updatePerson.bind(this, person) : this.addPerson.bind(this, person)}>
                 <h4 className="md-cell md-cell--12" style={h4styleFirst}>Required info</h4>
                 <TextField required id="name" label="Name" className="md-cell md-cell--12"
-                  value={this.state.person.name}
+                  value={this.state.person.name || undefined}
                   onChange={(v, e) => this.handleChange(v, e)}
-                // errorText="asdfasdf"
                 />
                 <TextField required id="surname" label="Surname" className="md-cell md-cell--12"
-                  value={this.state.person.surname}
+                  value={this.state.person.surname || undefined}
                   onChange={(v, e) => this.handleChange(v, e)}
-                // errorText="asdfasdf"
                 />
                 <TextField required id="date_of_birth" label="Date of birth" className="md-cell md-cell--12"
                   // type='date'
-                  value={this.state.person.date_of_birth}
+                  value={this.state.person.date_of_birth || undefined}
                   onChange={(v, e) => this.handleChange(v, e)}
                 />
 
                 <h4 className="md-cell md-cell--12" style={h4style}>Address</h4>
                 <TextField id="address" label="Street" className="md-cell md-cell--12"
                   // type='date'
-                  value={this.state.person.address}
+                  value={this.state.person.address || undefined}
                   onChange={(v, e) => this.handleChange(v, e)}
                 />
                 <TextField id="city" label="City" className="md-cell md-cell--6"
                   // type='date'
-                  value={this.state.person.city}
+                  value={this.state.person.city || undefined}
                   onChange={(v, e) => this.handleChange(v, e)}
                 />
                 <TextField id="zip" label="ZIP" className="md-cell md-cell--6"
                   // type='date'
-                  value={this.state.person.zip}
+                  value={this.state.person.zip || undefined}
                   onChange={(v, e) => this.handleChange(v, e)}
                 />
                 <h4 className="md-cell md-cell--12" style={h4style}>Contact</h4>
                 <TextField id="phone" label="Phone" className="md-cell md-cell--6" leftIcon={<FontIcon>phone</FontIcon>}
                   // type='date'
-                  value={this.state.person.phone}
+                  value={this.state.person.phone || undefined}
                   onChange={(v, e) => this.handleChange(v, e)}
                 />
                 <TextField id="email" label="Email" className="md-cell md-cell--6" leftIcon={<FontIcon>email</FontIcon>}
                   // type='date'
-                  value={this.state.person.email}
+                  value={this.state.person.email || undefined}
                   onChange={(v, e) => this.handleChange(v, e)}
                 />
                 {/* <DatePicker
@@ -210,7 +195,6 @@ class PersonProfile extends PureComponent {
                   {this.state.units.map(item =>
                     <ListItem
                       key={"/units/" + item.id}
-                      // className="md-cell md-cell-12"
                       leftAvatar={<Avatar suffix="amber">{item.name.charAt(0)}</Avatar>}
                       primaryText={item.name}
                       onClick={() => this.handleRedirect("/units/" + item.id)}
@@ -257,7 +241,6 @@ class PersonProfile extends PureComponent {
                     primary
                     icon
                     className="md-cell--left md-cell--middle"
-                  // disabled={!pastry}
                   >
                     <FontIcon>add</FontIcon>
                   </Button>
@@ -289,7 +272,6 @@ class PersonProfile extends PureComponent {
   // }
 
   getPerson = (id) => {
-    console.log("# getting person " + id);
     fetch('http://localhost:4000/get-person', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -298,44 +280,33 @@ class PersonProfile extends PureComponent {
       return response.json()
     }).then(data => {
       console.log("# get person > setState person", data.person);
-      // return ({person: data.person });
-
       let p = data.person;
-      // let d = new Date(data.person.date_of_birth)
-      // p.date_of_birth = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
       this.setState({ person: p });
-      // console.log(this.state.person)
     }).catch(err => console.log("Error while fetching persons: " + err))
   }
 
   addPerson = (person) => {
-    console.log("adding person", person);
     fetch('http://localhost:4000/add-person', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ person }),
     }).then(response => {
       console.log(response)
-      // response.status)
       return response.json()
     }).then(data => {
       if (data.msg === "err") {
         if (data.error.code === 'ER_DUP_ENTRY') {
-          console.log("DUPL.");
           this.setState({ dialog_visible: true, dialog_text: "Person already exists!" });
         }
       } else {
         this.setState({ dialog_visible: true, dialog_text: "Person succesfully added!" });
       }
-
-      // else if
-      // this.setState({ person: data.person });
     }).catch(err => console.log("Error while fetching persons: " + err))
   }
 
   updatePerson = (person) => {
     let id = person.id;
-    console.log("updating person " + id);
+    // console.log("updating person " + id);
     fetch('http://localhost:4000/update-person', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -354,21 +325,18 @@ class PersonProfile extends PureComponent {
         }
       }),
     }).then(response => {
-      // console.log(response)
       return response.json()
     }).then(data => {
-      // console.log(data.person)
-      console.log("UPDATE PERSON", id)
       if (id === this.props.cookies.get('user').id) {
         this.props.cookies.set('user', person, { path: '/' });
       }
-      // this.setState({ person: data.person });
+      this.setState({ dialog_visible: true, dialog_text: "Person succesfully updated!" });
     }).catch(err => console.log("Error while fetching persons: " + err))
 
   }
 
   getPersonUnits = (id) => {
-    console.log("getting person units " + id);
+    // console.log("getting person units " + id);
     fetch('http://localhost:4000/get-person-units', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -376,44 +344,35 @@ class PersonProfile extends PureComponent {
     }).then(response => {
       return response.json()
     }).then(data => {
-      console.log("# person units:", data);
-      // console.log(data)
       this.setState({ units: data });
-      // console.log(this.state.person)
     }).catch(err => console.log("Error while fetching person's units: " + err))
   }
 
   deletePersonMembership = (person_id, unit_id) => {
-    console.log("deleting person membership in unit " + unit_id);
+    // console.log("deleting person membership in unit " + unit_id);
     fetch('http://localhost:4000/delete-membership', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ person_id: person_id, unit_id: unit_id })
     }).then(response => response.json()
     ).then(data => {
-      // console.log("DELETE DATA:")
-      // console.log(data)
       if (data.affectedRows > 0) {
         this.getPersonUnits(person_id);
       }
-      // console.log(this.state.person)
     }).catch(err => console.log("Error while fetching person's units: " + err))
   }
 
   addPersonMembership = (person_id, unit_id) => {
-    console.log("adding person membership in unit " + unit_id);
+    // console.log("adding person membership in unit " + unit_id);
     fetch('http://localhost:4000/add-membership', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ person_id: person_id, unit_id: unit_id })
     }).then(response => response.json()
     ).then(data => {
-      // console.log("DELETE DATA:")
-      // console.log(data)
       if (data.affectedRows > 0) {
         this.getPersonUnits(person_id);
       }
-      // console.log(this.state.person)
     }).catch(err => console.log("Error while fetching person's units: " + err))
   };
 

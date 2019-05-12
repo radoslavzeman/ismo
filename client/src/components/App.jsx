@@ -12,18 +12,10 @@ import ProtectedRoute from './ProtectedRoute'
 import inboxListItems from '../constants/navItems';
 
 import Persons from './Persons'
-import Login from "./Login";
 import Logout from "./Logout"
-import Profile from "./Profile";
-import Person from "./Profile";
 import PersonProfile from "./PersonProfile"
 import Units from "./Units";
 import Unit from "./Unit";
-
-
-
-// import { Login } from './components/AuthContext'
-
 
 class App extends PureComponent {
   constructor(props) {
@@ -35,20 +27,12 @@ class App extends PureComponent {
     this.navItems = inboxListItems
 
     this.state = {
-      // user: [],
       user_name: "",
       password: "",
+      dialog_visible: false,
+      dialog_text: "",
     };
   }
-
-  // handleRedirect = (path) => {
-  //   if (path === "/logout") {
-  //     console.log(this.props);
-  //     this.props.cookies.remove('user', { path: "/" });
-  //     // this.props.history.push("/");
-  //   }
-  //   this.props.history.push(path);
-  // }
 
   connecToServer() {
     fetch('/');
@@ -57,7 +41,7 @@ class App extends PureComponent {
   componentDidMount() {
     this.connecToServer();
   }
-  
+
   componentDidChange = () => {
     if (this.props.match.path === "/logout") {
       this.props.cookies.remove('user', { path: "/" });
@@ -79,33 +63,26 @@ class App extends PureComponent {
       return response.json();
     }).then(data => {
       if (data.msg === "user_not_exists") {
-        // this.setState({ dialog_visible: true, dialog_message: "Username or password is incorrect" });
         this.setState({ login_error_visible: true, login_error_text: "Username or password is incorrect" });
-        console.log("Zadané prihlasovacie meno neexistuje");
+        // console.log("Zadané prihlasovacie meno neexistuje");
       }
       if (data.msg === "multiple_users_with_same_user_name") {
-        // this.setState({ dialog_visible: true, dialog_message: "Some error occured, more users with same username exist. Please, contact your administrator" });
-        this.setState({ login_error_visible: true, login_error_text: "ome error occured, more users with same username exist. Please, contact your administrator" });
-        console.log("Z nejakého dôvodu existuje viacero užívateľov s týmto prihlasovacím menom");
+        this.setState({ login_error_visible: true, login_error_text: "Some error occured, more users with same username exist. Please, contact your administrator" });
+        // console.log("Z nejakého dôvodu existuje viacero užívateľov s týmto prihlasovacím menom");
       }
       if (data.msg === "wrong_password") {
-        // this.setState({ dialog_visible: true, dialog_message: "Username or password is incorrect" });
         this.setState({ login_error_visible: true, login_error_text: "Username or password is incorrect" });
-        console.log("Zadané heslo nie je správne");
+        // console.log("Zadané heslo nie je správne");
       }
       if (data.msg === "err") {
-        // this.setState({ dialog_visible: true, dialog_message: "Undefined error. Please, contact your administrator." });
         this.setState({ login_error_visible: true, login_error_text: "Undefined error. Please, contact your administrator." });
-        console.log("Undefined error while login")
+        // console.log("Undefined error while login")
         throw data.error;
       }
       if (data.msg === "ok") {
         console.log(data.user);
-        // console.log('User ' + data.user.user_name + ' is successfully logged in');
-        // ctx.toggleLogin(data.user);
         this.props.cookies.set('user', data.user, { path: '/' });
-        console.log("ok");
-        console.log(this.props);
+        // console.log("ok");
       }
     })
       .catch(err => console.log("Error while fetching user: " + err))
@@ -134,7 +111,6 @@ class App extends PureComponent {
 
 
         // tu by mal yt iba <Login/>, ale vyrenderuje sa bez props, teda aj bez cookies
-        // <div className="md-grid" style={{background: 'red'}}>
         <section className="md-text-container md-cell md-cell--4 md-cell--right md-cell--middle" style={{
           position: 'absolute',
           top: '50%',
@@ -175,7 +151,6 @@ class App extends PureComponent {
                     primary
                     type="submit"
                     className="md-cell--center"
-                  // disabled={!this.validateForm()}
                   >
                     Log in
             </Button>
@@ -192,14 +167,11 @@ class App extends PureComponent {
             </CardText>
           </Card>
         </section>
-        // </div>
       );
     } else {
       return (
         <NavigationDrawer
-          // renderNode={renderNode}
           navItems={this.navItems.map(
-            // <ListItem {...item} onClick={() => this.handleRedirect("/" + item.key)} />
             props => <MyNavLink {...props} key={props.to} />)
           }
           mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
@@ -213,9 +185,8 @@ class App extends PureComponent {
         >
           <section className="md-text-container md-cell md-cell--12">
             <Switch>
-              {/* <Route path="/login" exact render={(props) => (<Login {...props} cookies={this.props.cookies} />)} /> */}
+              <ProtectedRoute path="/" exact render={(props) => (<Logout {...props} cookies={this.props.cookies} />)} />
               <ProtectedRoute path="/profile" render={(props) => (<PersonProfile {...props} cookies={this.props.cookies} />)} />
-              {/* <ProtectedRoute path="/profile" component={PersonProfile} /> */}
               <ProtectedRoute path="/persons" exact render={(props) => (<Persons {...props} cookies={this.props.cookies} />)} />
               <ProtectedRoute path="/persons/:id" render={(props) => (<PersonProfile {...props} cookies={this.props.cookies} />)} />
               <ProtectedRoute path="/add-person" exact render={(props) => (<PersonProfile {...props} cookies={this.props.cookies} />)} />

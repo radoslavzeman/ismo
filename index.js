@@ -46,9 +46,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) =>{
-    res.send('root route');
-})
+// app.get('/', (req, res) =>{
+//     res.send('root route');
+// })
 
 //Static file declaration
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -66,6 +66,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/public/index.html'));
 })
 
+
+// LOGIN //
 
 app.post('/login', (req, res) => {
     var sql = 'SELECT * FROM persons WHERE user_name = ?;';
@@ -182,33 +184,27 @@ app.post('/delete-person', (req, res) => {
         con.query(sql1, [req.body.id], (error, results, fields) => {
             if(error) {
                 connection.rollback(() => {
-                    return ({msg: 'err', error: error});
+                    return res.send({msg: 'err', error: error});
                 });
             }
         })
         con.query(sql2, [req.body.id], (error, results, fields) => {
             if(error) {
                 connection.rollback(() => {
-                    return ({msg: 'err', error: error});
+                    return res.send({msg: 'err', error: error});
                 });
             }
             con.commit( (error) => {
                 if (error) { 
                   connection.rollback( () => {
-                    return ({msg: 'err', error: error});
+                    return res.send({msg: 'err', error: error});
                   });
                 }
                 console.log('Transaction completed ');
-                return ({msg: 'ok', results: results});
+                return res.send({msg: 'ok', results: results});
             });
             // console.log('qyery2: ', results);
         });
-        console.log("transaction: ", results);
-        if (error) {
-            return ({msg: 'err', error: error});
-        } else {
-            return ({msg: 'ok', results: results});
-        }
     })
 })
 
@@ -344,24 +340,24 @@ app.post('/delete-unit', (req, res) => {
         con.query(sql1, [req.body.id], (error, results, fields) => {
             if(error) {
                 connection.rollback(() => {
-                    return ({msg: 'err', error: error});
+                    return res.send({msg: 'err', error: error});
                 });
             }
         })
         return con.query(sql2, [req.body.id], (error, results, fields) => {
             if(error) {
                 connection.rollback(() => {
-                    return ({msg: 'err', error: error});
+                    return res.send({msg: 'err', error: error});
                 });
             }
             return con.commit( (error) => {
                 if (error) { 
                   connection.rollback( () => {
-                    return ({msg: 'err', error: error});
+                    return res.send({msg: 'err', error: error});
                   });
                 }
                 console.log('Transaction completed');
-                return ({msg: 'ok', results: results});
+                return res.send({msg: 'ok', results: results});
             });
         })
     })

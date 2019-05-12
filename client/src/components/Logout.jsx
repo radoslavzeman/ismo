@@ -1,21 +1,24 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { AuthConsumer } from './AuthContext'
-import { Button } from 'react-md'
-
+import { Button, Card, CardTitle, CardText } from 'react-md'
 
 class Logout extends React.PureComponent {
 
   logout = () => {
     this.props.cookies.remove('user', { path: "/" });
-    // console.log(this.props.cookies);
     this.props.history.push("/");
   }
-  
-  render () { 
+
+  render() {
+    var user = this.props.cookies.get('user');
     return (
-      <Button raised secondary onClick={() => this.logout()}>Logout</Button>
-    )}
+      <Card key="persons" className="md-cell md-cell--12">
+        <CardTitle title={"Welcome " + user.name} />
+        <CardText>
+          <Button raised secondary onClick={() => this.logout()}>Logout</Button>
+        </CardText>
+      </Card>
+    )
+  }
 };
 
 export default Logout
