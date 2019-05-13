@@ -33,7 +33,7 @@ class Persons extends PureComponent {
 
     componentDidMount() {
         this.getPersons();
-        console.log(this.props);
+        // console.log(this.props);
     };
 
     getPersons = () => {

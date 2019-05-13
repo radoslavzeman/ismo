@@ -37,7 +37,7 @@ class PersonProfile extends PureComponent {
     // logged user
     else if (this.props.match.path === "/profile") {
       person = this.props.cookies.get('user');
-      console.log("# profile", person);
+      // console.log("# profile", person);
       this.setState({ person: person });
       id = person.id;
       this.getPersonUnits(id);
@@ -61,7 +61,7 @@ class PersonProfile extends PureComponent {
   }
 
   handleChange(v, event) {
-    console.log("# handle change", v, event.target.id);
+    // console.log("# handle change", v, event.target.id);
     let prevState = this.state.person;
     prevState[event.target.id] = v;
     this.setState(prevState);
@@ -82,7 +82,7 @@ class PersonProfile extends PureComponent {
   };
 
   render() {
-    console.log("RENDER", this.state, this.props);
+    // console.log("RENDER", this.state, this.props);
     const { params, path } = this.props.match.params;
     var person = this.state.person;
     var units = this.state.units;
@@ -279,7 +279,7 @@ class PersonProfile extends PureComponent {
     }).then(response => {
       return response.json()
     }).then(data => {
-      console.log("# get person > setState person", data.person);
+      // console.log("# get person > setState person", data.person);
       let p = data.person;
       this.setState({ person: p });
     }).catch(err => console.log("Error while fetching persons: " + err))
@@ -291,7 +291,7 @@ class PersonProfile extends PureComponent {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ person }),
     }).then(response => {
-      console.log(response)
+      // console.log(response)
       return response.json()
     }).then(data => {
       if (data.msg === "err") {

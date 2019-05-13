@@ -20,7 +20,7 @@ import Unit from "./Unit";
 class App extends PureComponent {
   constructor(props) {
     super(props);
-    console.log(this.props);
+    // console.log(this.props);
 
     const { cookies } = props;
 

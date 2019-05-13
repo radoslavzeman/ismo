@@ -31,7 +31,7 @@ class Unit extends PureComponent {
   }
 
   getUnit = (id) => {
-    console.log("getting unit " + id);
+    // console.log("getting unit " + id);
     fetch('http://localhost:5000/get-unit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
