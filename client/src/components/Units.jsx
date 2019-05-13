@@ -42,7 +42,7 @@ class Units extends PureComponent {
 
     getUnits = () => {
         // console.log("getting all units");
-        fetch('http://localhost:4000/get-units', {
+        fetch('http://localhost:5000/get-units', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         }).then(response => {
@@ -54,7 +54,7 @@ class Units extends PureComponent {
 
     deleteUnit = (id) => {
         // console.log("deleting unit " + id);
-        fetch('http://localhost:4000/delete-unit', {
+        fetch('http://localhost:5000/delete-unit', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id }),

@@ -38,7 +38,7 @@ class Persons extends PureComponent {
 
     getPersons = () => {
         // console.log("getting all persons");
-        fetch('http://localhost:4000/get-persons', {
+        fetch('http://localhost:5000/get-persons', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         }).then(response => {
@@ -50,7 +50,7 @@ class Persons extends PureComponent {
 
     deletePerson = (id) => {
         // console.log("deleting person " + id);
-        fetch('http://localhost:4000/delete-person', {
+        fetch('http://localhost:5000/delete-person', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id }),

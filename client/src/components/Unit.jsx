@@ -32,7 +32,7 @@ class Unit extends PureComponent {
 
   getUnit = (id) => {
     console.log("getting unit " + id);
-    fetch('http://localhost:4000/get-unit', {
+    fetch('http://localhost:5000/get-unit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: id })
@@ -45,7 +45,7 @@ class Unit extends PureComponent {
 
   addUnit = () => {
     // console.log("adding unit");
-    fetch('http://localhost:4000/add-unit', {
+    fetch('http://localhost:5000/add-unit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: this.state.unit.name })
@@ -59,7 +59,7 @@ class Unit extends PureComponent {
 
   updateUnit = (id) => {
     // console.log("updating unit " + id);
-    fetch('http://localhost:4000/update-unit', {
+    fetch('http://localhost:5000/update-unit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: this.state.unit.name, id: id })

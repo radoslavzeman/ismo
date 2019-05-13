@@ -259,7 +259,7 @@ class PersonProfile extends PureComponent {
 
   //   getAllUnits = () => {
   //     console.log("getting all units");
-  //     fetch('http://localhost:4000/get-units', {
+  //     fetch('http://localhost:5000/get-units', {
   //         method: 'POST',
   //         headers: { 'Content-Type': 'application/json' },
   //     }).then(response => response.json()
@@ -272,7 +272,7 @@ class PersonProfile extends PureComponent {
   // }
 
   getPerson = (id) => {
-    fetch('http://localhost:4000/get-person', {
+    fetch('http://localhost:5000/get-person', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: id })
@@ -286,7 +286,7 @@ class PersonProfile extends PureComponent {
   }
 
   addPerson = (person) => {
-    fetch('http://localhost:4000/add-person', {
+    fetch('http://localhost:5000/add-person', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ person }),
@@ -307,7 +307,7 @@ class PersonProfile extends PureComponent {
   updatePerson = (person) => {
     let id = person.id;
     // console.log("updating person " + id);
-    fetch('http://localhost:4000/update-person', {
+    fetch('http://localhost:5000/update-person', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -337,7 +337,7 @@ class PersonProfile extends PureComponent {
 
   getPersonUnits = (id) => {
     // console.log("getting person units " + id);
-    fetch('http://localhost:4000/get-person-units', {
+    fetch('http://localhost:5000/get-person-units', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: id })
@@ -350,7 +350,7 @@ class PersonProfile extends PureComponent {
 
   deletePersonMembership = (person_id, unit_id) => {
     // console.log("deleting person membership in unit " + unit_id);
-    fetch('http://localhost:4000/delete-membership', {
+    fetch('http://localhost:5000/delete-membership', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ person_id: person_id, unit_id: unit_id })
@@ -364,7 +364,7 @@ class PersonProfile extends PureComponent {
 
   addPersonMembership = (person_id, unit_id) => {
     // console.log("adding person membership in unit " + unit_id);
-    fetch('http://localhost:4000/add-membership', {
+    fetch('http://localhost:5000/add-membership', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ person_id: person_id, unit_id: unit_id })
